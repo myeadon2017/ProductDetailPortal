@@ -1,0 +1,118 @@
+package com.model;
+
+//This class will be used as a model for the product
+public class Product {
+	
+	private String prodName;
+	private String details;
+	public String getProdName() {
+		return prodName;
+	}
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
+	}
+	public String getDetails() {
+		return details;
+	}
+	public void setDetails(String details) {
+		this.details = details;
+	}
+	public Product(String prodName, String details) {
+		super();
+		this.prodName = prodName;
+		this.details = details;
+	}
+	public Product() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+
+}
+
+---------------------------------------------------------------------------
+
+package com.servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Servlet implementation class AddProductServlet
+ */
+
+//This Servlet will be used to communicate with front-end and back-end 
+//product details from user input
+@WebServlet("/AddProductServlet")
+public class AddProductServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//This is retrieving the users input for product name and details
+		String prodName= request.getParameter("prodName");
+		String details= request.getParameter("details");
+	
+			HttpSession session= request.getSession();
+			session.setAttribute("prodName", request.getParameter("prodName"));
+			session.setAttribute("details", request.getParameter("details"));
+			
+			//The user will then be sent to a page to a success page
+			//showing product details
+			response.sendRedirect("addproductsuccess.jsp");
+	}
+	
+
+	}
+
+	------------------------------------------------------------------------
+	
+	<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Add Product</title>
+</head>
+<body>
+
+<form method="post" action="AddProductServlet">
+
+Product Name:<input type="text" name="prodName">
+Product Details: <input type="text" name="details"><br/>
+
+
+
+
+<button type="submit">Add Product</button>
+
+</form>
+</body>
+</html>
+
+-----------------------------------------------------------------------------
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+Product Name: <%= session.getAttribute("prodName") %>
+/Product Details: <%= session.getAttribute("details") %>
+
+
+<br/>
+<a href="addproduct.html">Add Another Product</a>
+</body>
+</html>
